@@ -10,8 +10,14 @@
                 <div class="panel-body">
                     <form method="post" action="{{url('import-excel')}}" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <input type="file" name="excel">
-                        <br><br>
+                        <div class="form-group">
+                           <p>Archivo 1</p> 
+                           <input class="form-control" type="file" name="excel">
+                        </div>
+                        <div class="form-group">
+                           <p>Archivo a comparar</p> 
+                           <input class="form-control" type="file" name="comparar"> 
+                        </div>
                         <input type="submit" value="Enviar" style="padding: 10px 20px;">
                     </form>
                 </div>
