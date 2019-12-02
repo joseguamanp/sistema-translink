@@ -16,7 +16,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('/export-users', 'ExcelController@exportUsers');
+Route::get('/exportar', 'ExcelController@exportar');
+
+Route::get('/exportar_click', 'ExcelController@exportarClick');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -24,3 +27,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/import-excel', 'ExcelController@importUsers');
 
+Route::get('/eliminardata', 'ExcelController@eliminar');

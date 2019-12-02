@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompararArchivo extends Model
+class resultadoModel extends Model
 {
-    protected $table = 'comparar_archivo';
+    protected $table = 'resultado_archivos';
 
     protected $fillable = [
     'identificacion',
 		'nombre',
 		'apellido',
 		'email',
-    'event'
+    'codigo'
     ];
 
 
