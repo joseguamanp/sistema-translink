@@ -2,7 +2,7 @@
 
 ## Requisitos
 * Composer
-* PHP   7.0.0
+* PHP   >=  7.0.0
 *
 
 ## Instalación
