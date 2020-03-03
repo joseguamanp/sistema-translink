@@ -1,9 +1,9 @@
 # sistema-translink
 
 ## Requisitos
-Composer
-PHP
-
+* Composer
+* PHP
+*
 
 ## Instalación
 
