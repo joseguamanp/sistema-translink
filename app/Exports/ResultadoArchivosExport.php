@@ -13,9 +13,9 @@ class ResultadoArchivosExport implements FromCollection
     {
         $tabla=DB::table("comparar_archivo")->distinct()
         ->join("archivos","comparar_archivo.email","=","archivos.email")
-        ->select("comparar_archivo.email","comparar_archivo.identificacion",
-        "comparar_archivo.nombre","comparar_archivo.apellido","comparar_archivo.event")
-        ->where("comparar_archivo.event","=","open")
+        ->select("archivos.email","archivos.identificacion",
+        "archivos.nombre","comparar_archivo.event","comparar_archivo.subject")
+        //->where("comparar_archivo.event","=","open")
         ->get();
         return $tabla;
     }

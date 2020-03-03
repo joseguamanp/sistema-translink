@@ -15,7 +15,7 @@ class ResultadoArchivosClickExport implements FromCollection
         ->join("archivos","comparar_archivo.email","=","archivos.email")
         ->select("comparar_archivo.email",
         "comparar_archivo.identificacion","comparar_archivo.nombre","comparar_archivo.apellido")
-        ->where("comparar_archivo.event","=","click")
+        //->where("comparar_archivo.event","=","click")
         ->get();
         return $tabla;
     }

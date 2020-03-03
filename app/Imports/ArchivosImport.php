@@ -14,22 +14,12 @@ class ArchivosImport implements ToModel
     */
     public function model(array $row)
     {
-      /*$ordenNumber=true;
-          while($ordenNumber){
-                 $codigo = mt_rand(1000000000, 9999999999);
-                 if(ArchivoModel::where('codigo', $codigo)->count()<=0):
-                     $flag = false;
-                 endif;
-          }
-      if (!$ordenNumber):*/
         return new ArchivoModel([
           'identificacion'=> $row[0],
-          'apellido'=> $row[2],
+          //'apellido'=> $row[1],
           'nombre'=> $row[1],
-          'email'=> $row[3],
-          'event'=>$row[4],
-          //'codigo'=>$codigo,
+          'email'=> $row[2],
+          'telefono'=>$row[3],
         ]);
-    //  endif;
     }
 }

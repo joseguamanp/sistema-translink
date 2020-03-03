@@ -9,11 +9,12 @@ class CompararArchivo extends Model
     protected $table = 'comparar_archivo';
 
     protected $fillable = [
-    'identificacion',
-		'nombre',
-		'apellido',
-		'email',
-    'event'
+      'message_id',
+      'event',
+      'subject',
+      'from',
+      'email',
+      'categories'
     ];
 
 

@@ -13,6 +13,7 @@ class ArchivoModel extends Model
   'nombre',
   'apellido',
   'email',
-  'event'
+  'event',
+  'telefono'
   ];
 }

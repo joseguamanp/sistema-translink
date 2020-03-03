@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('productos');
 });
 
 
@@ -21,10 +21,13 @@ Route::get('/exportar', 'ExcelController@exportar');
 Route::get('/exportar_click', 'ExcelController@exportarClick');
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::post('/import-excel', 'ExcelController@importUsers');
 
 Route::get('/eliminardata', 'ExcelController@eliminar');
+
+
+//
+Route::post('/productos', 'productosController@excel');

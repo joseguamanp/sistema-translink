@@ -14,23 +14,13 @@ class CompararArchivosImport implements ToModel
     */
     public function model(array $row)
     {
-      /*$ordenNumber=true;
-          while($ordenNumber){
-                 $codigo = mt_rand(1000000000, 9999999999);
-                 if(CompararArchivo::where('codigo', $codigo)->count()<=0):
-                     $flag = false;
-                 endif;
-          }
-        if (!$ordenNumber):*/
           return new CompararArchivo([
-            'identificacion'=> $row[0],
-            'apellido'=> $row[1],
-            'nombre'=> $row[2],
-            'email'=> $row[3],
-            'event'=>$row[4],
-          //  'codigo'=>$codigo,
+            //'message_id'=> $row[0],
+            'event'=> $row[0],
+            'subject'=> $row[1],
+            //'from'=> $row[3],
+            'email'=>$row[2],
+            //'categories'=>$row[5],
           ]);
-        //endif;
-
     }
 }

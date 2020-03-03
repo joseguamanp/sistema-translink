@@ -43,5 +43,14 @@
         <a class="col-md-4 btn btn-success" href="exportar_click">exportar comparacion estado click</a>
         <a class="col-md-4 btn btn-danger" href="eliminardata">eliminar datos</a>
     </div>
+
+    <div class="">
+      cantidad:
+      <form class="" action="url('cupon')" method="post">
+        <input type="text" name="numero" value="">
+        <button type="button" name="button">imprimir</button>
+      </form>
+
+    </div>
 </div>
 @endsection
