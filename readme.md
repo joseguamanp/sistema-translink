@@ -15,6 +15,6 @@ composer install
 Este comando va a instalar todo los requerimientos del proyecto.
 
 ## Directorio de donde se guarda los pdf.
-
-
- 
+````
+proyecto>public>pdf
+`````
