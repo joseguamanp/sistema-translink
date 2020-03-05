@@ -18,3 +18,7 @@ Este comando va a instalar todo los requerimientos del proyecto.
 ````
 proyecto>public>pdf
 `````
+## Archivo de configuración
+````
+.env
+````
