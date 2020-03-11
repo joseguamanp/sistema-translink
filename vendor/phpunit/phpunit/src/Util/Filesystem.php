@@ -8,12 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Util;
-
 /**
  * Filesystem helpers.
  */
-class Filesystem
+class PHPUnit_Util_Filesystem
 {
     /**
      * @var array
@@ -32,9 +30,9 @@ class Filesystem
     public static function classNameToFilename($className)
     {
         return str_replace(
-                ['_', '\\'],
-                DIRECTORY_SEPARATOR,
-                $className
-            ) . '.php';
+            ['_', '\\'],
+            DIRECTORY_SEPARATOR,
+            $className
+        ) . '.php';
     }
 }

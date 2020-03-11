@@ -8,12 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPUnit\Util\TestDox;
-
 /**
  * Prettifies class and method names for use in TestDox documentation.
  */
-class NamePrettifier
+class PHPUnit_Util_TestDox_NamePrettifier
 {
     /**
      * @var string
@@ -42,14 +40,12 @@ class NamePrettifier
         $title = $name;
 
         if ($this->suffix !== null &&
-            $this->suffix == substr($name, -1 * strlen($this->suffix))
-        ) {
+            $this->suffix == substr($name, -1 * strlen($this->suffix))) {
             $title = substr($title, 0, strripos($title, $this->suffix));
         }
 
         if ($this->prefix !== null &&
-            $this->prefix == substr($name, 0, strlen($this->prefix))
-        ) {
+            $this->prefix == substr($name, 0, strlen($this->prefix))) {
             $title = substr($title, strlen($this->prefix));
         }
 
@@ -103,14 +99,13 @@ class NamePrettifier
         for ($i = 0; $i < $max; $i++) {
             if ($i > 0 &&
                 ord($name[$i]) >= 65 &&
-                ord($name[$i]) <= 90
-            ) {
+                ord($name[$i]) <= 90) {
                 $buffer .= ' ' . strtolower($name[$i]);
             } else {
                 $isNumeric = is_numeric($name[$i]);
 
                 if (!$wasNumeric && $isNumeric) {
-                    $buffer .= ' ';
+                    $buffer    .= ' ';
                     $wasNumeric = true;
                 }
 

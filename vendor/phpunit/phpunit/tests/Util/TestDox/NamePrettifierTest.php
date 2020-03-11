@@ -7,16 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Util\TestDox\NamePrettifier;
 
-class Util_TestDox_NamePrettifierTest extends TestCase
+class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
 {
     protected $namePrettifier;
 
     protected function setUp()
     {
-        $this->namePrettifier = new NamePrettifier;
+        $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier;
     }
 
     public function testTitleHasSensibleDefaults()

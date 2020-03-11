@@ -7,14 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Util;
-
-use PHPUnit\Framework\Exception;
 
 /**
  * Command-line options parsing class.
  */
-class Getopt
+class PHPUnit_Util_Getopt
 {
     public static function getopt(array $args, $short_options, $long_options = null)
     {
@@ -34,22 +31,25 @@ class Getopt
         }
 
         reset($args);
-        array_map('trim', $args);
 
-        while (list($i, $arg) = @each($args)) {
+        $args = array_map('trim', $args);
+
+        while (false !== $arg = current($args)) {
+            $i = key($args);
+            next($args);
             if ($arg == '') {
                 continue;
             }
 
             if ($arg == '--') {
                 $non_opts = array_merge($non_opts, array_slice($args, $i + 1));
+
                 break;
             }
 
-            if ($arg[0] != '-' ||
-                (strlen($arg) > 1 && $arg[1] == '-' && !$long_options)
-            ) {
+            if ($arg[0] != '-' || (strlen($arg) > 1 && $arg[1] == '-' && !$long_options)) {
                 $non_opts[] = $args[$i];
+
                 continue;
             } elseif (strlen($arg) > 1 && $arg[1] == '-') {
                 self::parseLongOption(
@@ -79,30 +79,25 @@ class Getopt
             $opt     = $arg[$i];
             $opt_arg = null;
 
-            if (($spec = strstr($short_options, $opt)) === false ||
-                $arg[$i] == ':'
-            ) {
-                throw new Exception(
+            if (($spec = strstr($short_options, $opt)) === false || $arg[$i] == ':') {
+                throw new PHPUnit_Framework_Exception(
                     "unrecognized option -- $opt"
                 );
             }
 
             if (strlen($spec) > 1 && $spec[1] == ':') {
-                if (strlen($spec) > 2 && $spec[2] == ':') {
-                    if ($i + 1 < $argLen) {
-                        $opts[] = [$opt, substr($arg, $i + 1)];
-                        break;
-                    }
-                } else {
-                    if ($i + 1 < $argLen) {
-                        $opts[] = [$opt, substr($arg, $i + 1)];
-                        break;
-                    } elseif (list(, $opt_arg) = @each($args)) {
-                    } else {
-                        throw new Exception(
+                if ($i + 1 < $argLen) {
+                    $opts[] = [$opt, substr($arg, $i + 1)];
+
+                    break;
+                }
+                if (!(strlen($spec) > 2 && $spec[2] == ':')) {
+                    if (false === $opt_arg = current($args)) {
+                        throw new PHPUnit_Framework_Exception(
                             "option requires an argument -- $opt"
                         );
                     }
+                    next($args);
                 }
             }
 
@@ -134,25 +129,25 @@ class Getopt
             $opt_rest = substr($long_opt, $opt_len);
 
             if ($opt_rest != '' && $opt[0] != '=' && $i + 1 < $count &&
-                $opt == substr($long_options[$i + 1], 0, $opt_len)
-            ) {
-                throw new Exception(
+                $opt == substr($long_options[$i + 1], 0, $opt_len)) {
+                throw new PHPUnit_Framework_Exception(
                     "option --$opt is ambiguous"
                 );
             }
 
             if (substr($long_opt, -1) == '=') {
                 if (substr($long_opt, -2) != '==') {
-                    if (!strlen($opt_arg) &&
-                        !(list(, $opt_arg) = @each($args))
-                    ) {
-                        throw new Exception(
-                            "option --$opt requires an argument"
-                        );
+                    if (!strlen($opt_arg)) {
+                        if (false === $opt_arg = current($args)) {
+                            throw new PHPUnit_Framework_Exception(
+                                "option --$opt requires an argument"
+                            );
+                        }
+                        next($args);
                     }
                 }
             } elseif ($opt_arg) {
-                throw new Exception(
+                throw new PHPUnit_Framework_Exception(
                     "option --$opt doesn't allow an argument"
                 );
             }
@@ -163,6 +158,7 @@ class Getopt
             return;
         }
 
-        throw new Exception("unrecognized option --$opt");
+        throw new PHPUnit_Framework_Exception("unrecognized option --$opt");
     }
 }
+

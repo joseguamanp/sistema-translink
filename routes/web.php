@@ -12,22 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('productos');
+    return view('welcome');
+});
+
+Route::get('/prueba', function () {
+    return view('cupones2');
 });
 
 
-Route::get('/exportar', 'ExcelController@exportar');
-
-Route::get('/exportar_click', 'ExcelController@exportarClick');
-
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get("cupones/{id}","CuponController@index");
 
 
-Route::post('/import-excel', 'ExcelController@importUsers');
 
-Route::get('/eliminardata', 'ExcelController@eliminar');
+Route::get("cupon","CuponController@index2");
 
-
-//
-Route::post('/productos', 'productosController@excel');
+Route::post("datos","CuponController@datos");

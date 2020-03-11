@@ -7,14 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Util;
-
-use PHPUnit\Framework\Exception;
 
 /**
  * Utility methods to load PHP sourcefiles.
  */
-class Fileloader
+class PHPUnit_Util_Fileloader
 {
     /**
      * Checks if a PHP sourcefile is readable.
@@ -24,14 +21,14 @@ class Fileloader
      *
      * @return string
      *
-     * @throws Exception
+     * @throws PHPUnit_Framework_Exception
      */
     public static function checkAndLoad($filename)
     {
         $includePathFilename = stream_resolve_include_path($filename);
 
         if (!$includePathFilename || !is_readable($includePathFilename)) {
-            throw new Exception(
+            throw new PHPUnit_Framework_Exception(
                 sprintf('Cannot open file "%s".' . "\n", $filename)
             );
         }

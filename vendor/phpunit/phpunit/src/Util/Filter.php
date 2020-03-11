@@ -7,15 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Util;
-
-use PHPUnit\Framework\Exception;
-use PHPUnit\Framework\SyntheticError;
 
 /**
  * Utility class for code filtering.
  */
-class Filter
+class PHPUnit_Util_Filter
 {
     /**
      * Filters stack frames from PHPUnit classes.
@@ -40,11 +36,11 @@ class Filter
             $filteredStacktrace = [];
         }
 
-        if ($e instanceof SyntheticError) {
+        if ($e instanceof PHPUnit_Framework_SyntheticError) {
             $eTrace = $e->getSyntheticTrace();
             $eFile  = $e->getSyntheticFile();
             $eLine  = $e->getSyntheticLine();
-        } elseif ($e instanceof Exception) {
+        } elseif ($e instanceof PHPUnit_Framework_Exception) {
             $eTrace = $e->getSerializableTrace();
             $eFile  = $e->getFile();
             $eLine  = $e->getLine();
@@ -64,14 +60,13 @@ class Filter
             );
         }
 
-        $blacklist = new Blacklist;
+        $blacklist = new PHPUnit_Util_Blacklist;
 
         foreach ($eTrace as $frame) {
             if (isset($frame['file']) && is_file($frame['file']) &&
                 !$blacklist->isBlacklisted($frame['file']) &&
                 ($prefix === false || strpos($frame['file'], $prefix) !== 0) &&
-                $frame['file'] !== $script
-            ) {
+                $frame['file'] !== $script) {
                 if ($asString === true) {
                     $filteredStacktrace .= sprintf(
                         "%s:%s\n",
@@ -98,8 +93,7 @@ class Filter
     {
         foreach ($trace as $frame) {
             if (isset($frame['file']) && $frame['file'] == $file &&
-                isset($frame['line']) && $frame['line'] == $line
-            ) {
+                isset($frame['line']) && $frame['line'] == $line) {
                 return true;
             }
         }

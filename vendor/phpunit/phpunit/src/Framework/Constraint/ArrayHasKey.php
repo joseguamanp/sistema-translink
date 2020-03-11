@@ -7,9 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use ArrayAccess;
 
 /**
  * Constraint that asserts that the array it is evaluated for has a given key.
@@ -19,7 +16,7 @@ use ArrayAccess;
  *
  * The array key is passed in the constructor.
  */
-class ArrayHasKey extends Constraint
+class PHPUnit_Framework_Constraint_ArrayHasKey extends PHPUnit_Framework_Constraint
 {
     /**
      * @var int|string

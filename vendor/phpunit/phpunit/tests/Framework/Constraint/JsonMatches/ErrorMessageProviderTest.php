@@ -7,10 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-use PHPUnit\Framework\Constraint\JsonMatchesErrorMessageProvider;
-use PHPUnit\Framework\TestCase;
 
-class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends TestCase
+class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider translateTypeToPrefixDataprovider
@@ -19,7 +17,7 @@ class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            JsonMatchesErrorMessageProvider::translateTypeToPrefix($type)
+            PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::translateTypeToPrefix($type)
         );
     }
 
@@ -30,7 +28,7 @@ class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            JsonMatchesErrorMessageProvider::determineJsonError(
+            PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(
                 $error,
                 $prefix
             )

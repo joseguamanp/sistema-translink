@@ -7,16 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-use Generator;
-
-/**
- */
-class Count extends Constraint
+class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
 {
     /**
      * @var int

@@ -8,11 +8,6 @@
  * file that was distributed with this source code.
  */
 
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\TestResult;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Runner\BaseTestRunner;
-
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'NoArgTestCaseTest.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Singleton.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Mockable.php';
@@ -27,13 +22,14 @@ $_FILES['g']   = 'g';
 $_REQUEST['h'] = 'h';
 $GLOBALS['i']  = 'i';
 
-/**
- */
-class Framework_TestCaseTest extends TestCase
+class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 {
     protected $backupGlobalsBlacklist = ['i', 'singleton'];
 
-    protected static $_testStatic = 0;
+    /**
+     * Used be testStaticAttributesBackupPre
+     */
+    protected static $testStatic = 0;
 
     public function testCaseToString()
     {
@@ -48,7 +44,7 @@ class Framework_TestCaseTest extends TestCase
         $test   = new Success;
         $result = $test->run();
 
-        $this->assertEquals(BaseTestRunner::STATUS_PASSED, $test->getStatus());
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_PASSED, $test->getStatus());
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
         $this->assertEquals(0, $result->skippedCount());
@@ -60,7 +56,7 @@ class Framework_TestCaseTest extends TestCase
         $test   = new Failure;
         $result = $test->run();
 
-        $this->assertEquals(BaseTestRunner::STATUS_FAILURE, $test->getStatus());
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE, $test->getStatus());
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(1, $result->failureCount());
         $this->assertEquals(0, $result->skippedCount());
@@ -72,7 +68,7 @@ class Framework_TestCaseTest extends TestCase
         $test   = new TestError;
         $result = $test->run();
 
-        $this->assertEquals(BaseTestRunner::STATUS_ERROR, $test->getStatus());
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_ERROR, $test->getStatus());
         $this->assertEquals(1, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
         $this->assertEquals(0, $result->skippedCount());
@@ -84,7 +80,7 @@ class Framework_TestCaseTest extends TestCase
         $test   = new TestSkipped();
         $result = $test->run();
 
-        $this->assertEquals(BaseTestRunner::STATUS_SKIPPED, $test->getStatus());
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED, $test->getStatus());
         $this->assertEquals('Skipped test', $test->getStatusMessage());
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
@@ -97,7 +93,7 @@ class Framework_TestCaseTest extends TestCase
         $test   = new TestIncomplete();
         $result = $test->run();
 
-        $this->assertEquals(BaseTestRunner::STATUS_INCOMPLETE, $test->getStatus());
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE, $test->getStatus());
         $this->assertEquals('Incomplete test', $test->getStatusMessage());
         $this->assertEquals(0, $result->errorCount());
         $this->assertEquals(0, $result->failureCount());
@@ -108,7 +104,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionInSetUp()
     {
         $test   = new ExceptionInSetUpTest('testSomething');
-        $test->run();
+        $result = $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertFalse($test->assertPreConditions);
@@ -120,7 +116,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionInAssertPreConditions()
     {
         $test   = new ExceptionInAssertPreConditionsTest('testSomething');
-        $test->run();
+        $result = $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -132,7 +128,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionInTest()
     {
         $test   = new ExceptionInTest('testSomething');
-        $test->run();
+        $result = $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -144,7 +140,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionInAssertPostConditions()
     {
         $test   = new ExceptionInAssertPostConditionsTest('testSomething');
-        $test->run();
+        $result = $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
@@ -156,19 +152,20 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionInTearDown()
     {
         $test   = new ExceptionInTearDownTest('testSomething');
-        $test->run();
+        $result = $test->run();
 
         $this->assertTrue($test->setUp);
         $this->assertTrue($test->assertPreConditions);
         $this->assertTrue($test->testSomething);
         $this->assertTrue($test->assertPostConditions);
         $this->assertTrue($test->tearDown);
+        $this->assertEquals(PHPUnit_Runner_BaseTestRunner::STATUS_ERROR, $test->getStatus());
     }
 
     public function testNoArgTestCasePasses()
     {
-        $result = new TestResult;
-        $t      = new TestSuite(NoArgTestCaseTest::class);
+        $result = new PHPUnit_Framework_TestResult;
+        $t      = new PHPUnit_Framework_TestSuite('NoArgTestCaseTest');
 
         $t->run($result);
 
@@ -199,7 +196,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionWithEmptyMessage()
     {
         $test = new ThrowExceptionTestCase('test');
-        $test->expectException(RuntimeException::class);
+        $test->expectException(RuntimeException::class, '');
 
         $result = $test->run();
 
@@ -210,7 +207,7 @@ class Framework_TestCaseTest extends TestCase
     public function testExceptionWithNullMessage()
     {
         $test = new ThrowExceptionTestCase('test');
-        $test->expectException(RuntimeException::class);
+        $test->expectException(RuntimeException::class, null);
 
         $result = $test->run();
 
@@ -378,13 +375,11 @@ class Framework_TestCaseTest extends TestCase
     /**
      * @backupGlobals enabled
      * @backupStaticAttributes enabled
-     *
-     * @doesNotPerformAssertions
      */
     public function testStaticAttributesBackupPre()
     {
         $GLOBALS['singleton'] = Singleton::getInstance();
-        self::$_testStatic    = 123;
+        self::$testStatic     = 123;
     }
 
     /**
@@ -393,7 +388,7 @@ class Framework_TestCaseTest extends TestCase
     public function testStaticAttributesBackupPost()
     {
         $this->assertNotSame($GLOBALS['singleton'], Singleton::getInstance());
-        $this->assertSame(0, self::$_testStatic);
+        $this->assertSame(0, self::$testStatic);
     }
 
     public function testIsInIsolationReturnsFalse()
@@ -502,7 +497,7 @@ class Framework_TestCaseTest extends TestCase
     public function testSkipsIfRequiresNonExistingExtension()
     {
         $test   = new RequirementsTest('testTen');
-        $test->run();
+        $result = $test->run();
 
         $this->assertEquals(
             'Extension testExt is required.',
@@ -513,7 +508,7 @@ class Framework_TestCaseTest extends TestCase
     public function testSkipsIfRequiresExtensionWithAMinimumVersion()
     {
         $test   = new RequirementsTest('testSpecificExtensionVersion');
-        $test->run();
+        $result = $test->run();
 
         $this->assertEquals(
             'Extension testExt >= 1.8.0 is required.',
@@ -524,7 +519,7 @@ class Framework_TestCaseTest extends TestCase
     public function testSkipsProvidesMessagesForAllSkippingReasons()
     {
         $test   = new RequirementsTest('testAllPossibleRequirements');
-        $test->run();
+        $result = $test->run();
 
         $this->assertEquals(
             'PHP >= 99-dev is required.' . PHP_EOL .
@@ -651,5 +646,45 @@ class Framework_TestCaseTest extends TestCase
 
         $this->assertFalse($mock->foo());
         $this->assertNull($mock->bar());
+    }
+
+    public function testProvidingOfAutoreferencedArray()
+    {
+        $test = new \TestAutoreferenced('testJsonEncodeException', $this->getAutoreferencedArray());
+        $test->runBare();
+
+        $this->assertInternalType('array', $test->myTestData);
+        $this->assertArrayHasKey('data', $test->myTestData);
+        $this->assertEquals($test->myTestData['data'][0], $test->myTestData['data']);
+    }
+
+    /**
+     * @return array
+     */
+    private function getAutoreferencedArray()
+    {
+        $recursionData   = [];
+        $recursionData[] = &$recursionData;
+
+        return [
+            'RECURSION' => [
+                'data' => $recursionData
+            ]
+        ];
+    }
+
+    public function testProvidingArrayThatMixesObjectsAndScalars()
+    {
+        $data = [
+            [123],
+            ['foo'],
+            [$this->createMock(Mockable::class)],
+        ];
+
+        $test = new \TestAutoreferenced('testJsonEncodeException', [$data]);
+        $test->runBare();
+
+        $this->assertInternalType('array', $test->myTestData);
+        $this->assertSame($data, $test->myTestData);
     }
 }

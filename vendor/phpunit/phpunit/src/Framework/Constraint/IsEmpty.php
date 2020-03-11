@@ -7,14 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use Countable;
 
 /**
  * Constraint that checks whether a variable is empty().
  */
-class IsEmpty extends Constraint
+class PHPUnit_Framework_Constraint_IsEmpty extends PHPUnit_Framework_Constraint
 {
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
