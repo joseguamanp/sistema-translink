@@ -30,3 +30,5 @@ Para cambiar de cupon se debe tener en consideracion 2 carpeta
 
 la carpeta `public` es donde se almacena las imagenes de los cupones.
 la carpeta `resource>views` se guarda las vista.
+
+(https://github.com/joseguamanp/sistema-translink/tree/master/public/captura/Capture.PNG)
