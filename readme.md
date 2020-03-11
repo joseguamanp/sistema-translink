@@ -22,7 +22,6 @@ proyecto>public>pdf
 ````
 .env
 ````
-<<<<<<< HEAD
 ## Cambiar cupones
 Para cambiar de cupon se debe tener en consideracion 2 carpeta
 >public
